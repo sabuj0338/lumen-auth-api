@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Notifications\SendResetPasswordNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -55,9 +56,7 @@ class AuthController extends Controller
       "name" => $request->name,
       "email" => $request->email,
       "password" => Hash::make($request->password) ?? Hash::make('password'),
-      // "password" => app('hash')->make($request->password),
     ];
-    // return $body;
 
     $user = User::create($body);
 
@@ -95,17 +94,26 @@ class AuthController extends Controller
    */
   public function refreshTokens()
   {
-    // return $this->jsonResponse(auth()->refresh());
     return $this->respondWithToken(Auth::refresh());
   }
 
   public function forgotPassword(Request $request)
   {
-    return response()->json(["message" => "OTP sent successfully"]);
+    try {
+      //code...
+      $user = User::find(Auth::user()->id);
+      $user->notify(new SendResetPasswordNotification(123456));
+      return response()->json(["message" => "OTP sent successfully"]);
+    } catch (\Throwable $th) {
+      //throw $th;
+      return response()->json(['message' => $th->getMessage()], 403);
+    }
   }
 
   public function resetPassword(Request $request)
   {
+    // $user = Auth::user();
+    // Auth::user()->notify(new SendResetPasswordNotification(123456));
     return response()->json(["message" => "OTP sent successfully"]);
   }
 
