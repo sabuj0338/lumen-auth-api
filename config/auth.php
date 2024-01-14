@@ -2,7 +2,7 @@
 
 return [
 
-    /*
+  /*
     |--------------------------------------------------------------------------
     | Authentication Defaults
     |--------------------------------------------------------------------------
@@ -13,12 +13,12 @@ return [
     |
     */
 
-    'defaults' => [
-        'guard' => env('AUTH_GUARD', 'api'),
-        'passwords' => env('AUTH_GUARD_PASSWORD', 'users'),
-    ],
+  'defaults' => [
+    'guard' => env('AUTH_GUARD', 'api'),
+    'passwords' => env('AUTH_GUARD_PASSWORD', 'users'),
+  ],
 
-    /*
+  /*
     |--------------------------------------------------------------------------
     | Authentication Guards
     |--------------------------------------------------------------------------
@@ -35,14 +35,15 @@ return [
     |
     */
 
-    'guards' => [
-        'api' => [
-            'driver' => 'jwt',
-            'provider' => 'users',
-        ],
+  'guards' => [
+    // 'api' => ['driver' => 'api'],
+    'api' => [
+      'driver' => 'jwt',
+      'provider' => 'users',
     ],
+  ],
 
-    /*
+  /*
     |--------------------------------------------------------------------------
     | User Providers
     |--------------------------------------------------------------------------
@@ -59,14 +60,14 @@ return [
     |
     */
 
-    'providers' => [
-        'users' => [
-            'driver' => 'eloquent',
-            'model' => \App\Models\User::class
-        ]
-    ],
+  'providers' => [
+    'users' => [
+      'driver' => 'eloquent',
+      'model' => \App\Models\User::class
+    ]
+  ],
 
-    /*
+  /*
     |--------------------------------------------------------------------------
     | Resetting Passwords
     |--------------------------------------------------------------------------
@@ -85,8 +86,8 @@ return [
     |
     */
 
-    'passwords' => [
-        //
-    ],
+  'passwords' => [
+    //
+  ],
 
 ];

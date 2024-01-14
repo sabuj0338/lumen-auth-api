@@ -17,21 +17,34 @@ $router->get('/', function () use ($router) {
     return $router->app->version();
 });
 
-$router->group(['prefix' => 'api'], function () use ($router) {
 
+$router->group(['prefix' => 'v1'], function () use ($router) {
+  $router->group(['prefix' => 'auth'], function () use ($router) {
     $router->post('/register', 'AuthController@register');
     $router->post('/login', 'AuthController@login');
+  });
 
-    $router->group(['middleware' => 'auth'], function () use ($router) {
-        
-        $router->get('/me', 'AuthController@me');
-        $router->post('/logout', 'AuthController@logout');
+  $router->group(['prefix' => 'auth', 'middleware' => 'auth'], function () use ($router) {
+    $router->get('/profile', 'AuthController@profile');
+    $router->post('/logout', 'AuthController@logout');
+    $router->post('/refresh-tokens', 'AuthController@refreshTokens');
+    $router->post('/forgot-password', 'AuthController@forgotPassword');
+    $router->post('/reset-password', 'AuthController@resetPassword');
+    $router->post('/send-verification-email', 'AuthController@sendVerificationEmail');
+    $router->post('/verify-email', 'AuthController@verifyEmail');
+    // $router->post('/send-otp', 'AuthController@send-otp');
+    // $router->post('/verify-otp', 'AuthController@verify-otp');
+    $router->put('/update-password', 'AuthController@updatePassword');
+    $router->put('/update', 'AuthController@update');
+    // $router->post('/update-photo', 'AuthController@update-photo');
+  });
 
-        $router->group(['middleware' => ['role:admin|moderator']], function () {
-            //
-        });
+  $router->group(['middleware' => 'auth'], function () use ($router) {
+
+    $router->group(['middleware' => ['role:admin|moderator']], function () {
+      //
     });
-    
+  });
 });
 
 

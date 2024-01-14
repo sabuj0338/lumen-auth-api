@@ -1,9 +1,9 @@
 <?php
 
-require_once __DIR__.'/../vendor/autoload.php';
+require_once __DIR__ . '/../vendor/autoload.php';
 
 (new Laravel\Lumen\Bootstrap\LoadEnvironmentVariables(
-    dirname(__DIR__)
+  dirname(__DIR__)
 ))->bootstrap();
 
 date_default_timezone_set(env('APP_TIMEZONE', 'UTC'));
@@ -20,7 +20,7 @@ date_default_timezone_set(env('APP_TIMEZONE', 'UTC'));
 */
 
 $app = new Laravel\Lumen\Application(
-    dirname(__DIR__)
+  dirname(__DIR__)
 );
 
 $app->withFacades();
@@ -39,13 +39,13 @@ $app->withEloquent();
 */
 
 $app->singleton(
-    Illuminate\Contracts\Debug\ExceptionHandler::class,
-    App\Exceptions\Handler::class
+  Illuminate\Contracts\Debug\ExceptionHandler::class,
+  App\Exceptions\Handler::class
 );
 
 $app->singleton(
-    Illuminate\Contracts\Console\Kernel::class,
-    App\Console\Kernel::class
+  Illuminate\Contracts\Console\Kernel::class,
+  App\Console\Kernel::class
 );
 
 /*
@@ -62,11 +62,11 @@ $app->singleton(
 $app->configure('app');
 $app->configure('auth');
 $app->configure('queue');
+$app->configure('jwt');
 
 $app->configure('permission');
 $app->alias('cache', \Illuminate\Cache\CacheManager::class);  // if you don't have this already
 $app->register(Spatie\Permission\PermissionServiceProvider::class);
-
 /*
 |--------------------------------------------------------------------------
 | Register Middleware
@@ -83,9 +83,9 @@ $app->register(Spatie\Permission\PermissionServiceProvider::class);
 // ]);
 
 $app->routeMiddleware([
-    'auth' => App\Http\Middleware\Authenticate::class,
-    'permission' => Spatie\Permission\Middlewares\PermissionMiddleware::class,
-    'role'       => Spatie\Permission\Middlewares\RoleMiddleware::class,
+  'auth' => App\Http\Middleware\Authenticate::class,
+  'permission' => App\Http\Middleware\PermissionMiddleware::class,
+  'role' => App\Http\Middleware\RoleMiddleware::class,
 ]);
 
 /*
@@ -103,9 +103,8 @@ $app->routeMiddleware([
 $app->register(App\Providers\AuthServiceProvider::class);
 // $app->register(App\Providers\EventServiceProvider::class);
 
+// tymon/jwt-auth
 $app->register(Tymon\JWTAuth\Providers\LumenServiceProvider::class);
-
-$app->register(Flipbox\LumenGenerator\LumenGeneratorServiceProvider::class);
 
 /*
 |--------------------------------------------------------------------------
@@ -119,9 +118,9 @@ $app->register(Flipbox\LumenGenerator\LumenGeneratorServiceProvider::class);
 */
 
 $app->router->group([
-    'namespace' => 'App\Http\Controllers',
+  'namespace' => 'App\Http\Controllers',
 ], function ($router) {
-    require __DIR__.'/../routes/web.php';
+  require __DIR__ . '/../routes/web.php';
 });
 
 return $app;
