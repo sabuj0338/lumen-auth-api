@@ -22,14 +22,15 @@ $router->group(['prefix' => 'v1'], function () use ($router) {
   $router->group(['prefix' => 'auth'], function () use ($router) {
     $router->post('/register', 'AuthController@register');
     $router->post('/login', 'AuthController@login');
+
+    $router->post('/forgot-password', 'AuthController@forgotPassword');
+    $router->post('/reset-password', 'AuthController@resetPassword');
   });
 
   $router->group(['prefix' => 'auth', 'middleware' => 'auth'], function () use ($router) {
     $router->get('/profile', 'AuthController@profile');
     $router->post('/logout', 'AuthController@logout');
     $router->post('/refresh-tokens', 'AuthController@refreshTokens');
-    $router->post('/forgot-password', 'AuthController@forgotPassword');
-    $router->post('/reset-password', 'AuthController@resetPassword');
     $router->post('/send-verification-email', 'AuthController@sendVerificationEmail');
     $router->post('/verify-email', 'AuthController@verifyEmail');
     // $router->post('/send-otp', 'AuthController@send-otp');

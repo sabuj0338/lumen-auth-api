@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Token extends Model
+class Otp extends Model
 {
   /**
    * The attributes that are mass assignable.
@@ -13,7 +13,7 @@ class Token extends Model
    */
   protected $fillable = [
     'user',
-    'token',
+    'otp',
     'type',
     'expires',
   ];

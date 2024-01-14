@@ -45,7 +45,7 @@ class SendResetPasswordNotification extends Notification
   public function toMail($notifiable)
   {
     return (new MailMessage)
-      ->line('Email Verification Secret Code = ' . $this->code)
+      ->line('Reset password Secret Code = ' . $this->code)
       ->action('Notification Action', url('/'))
       ->line('Thank you for using our application!');
   }

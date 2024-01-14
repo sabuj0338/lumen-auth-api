@@ -11,13 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('tokens', function (Blueprint $table) {
+        Schema::create('otps', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('user');
-            $table->text('token');
-            $table->enum('type', ["access", "refresh"]);
+            $table->integer('otp');
+            $table->enum('type', ["reset_password", "verify_email"]);
             $table->datetime('expires');
-            $table->boolean('blacklisted')->default(false);
             $table->timestamps();
         });
     }
@@ -27,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('tokens');
+        Schema::dropIfExists('otps');
     }
 };
